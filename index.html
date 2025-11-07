@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-COMMERCE SYSTEM - Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f2f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    h2 {
+      color: #00796b;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004d40;
+    }
+    .link {
+      color: #00796b;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    #dashboard {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="loginContainer">
+    <h2>Login</h2>
+    <input type="text" id="loginUsername" placeholder="Username" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <span class="link" onclick="showRegister()">Register here</span></p>
+  </div>
+
+  <div class="container" id="registerContainer" style="display:none;">
+    <h2>Register</h2>
+    <input type="text" id="regUsername" placeholder="Choose username" />
+    <input type="password" id="regPassword" placeholder="Choose password" />
+    <button onclick="register()">Register</button>
+    <p>Already have an account? <span class="link" onclick="showLogin()">Login here</span></p>
+  </div>
+
+  <div class="container" id="dashboard">
+    <h2>Welcome to E-COMMERCE SYSTEM</h2>
+    <p id="welcomeUser"></p>
+    <a class="link" href="rheall.html">Go to dashboard</a>
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("registerContainer").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("registerContainer").style.display = "none";
+      document.getElementById("loginContainer").style.display = "block";
+    }
+
+    function register() {
+      let username = document.getElementById("regUsername").value;
+      let password = document.getElementById("regPassword").value;
+
+      if (username === "" || password === "") {
+        alert("Please fill in all fields!");
+        return;
+      }
+
+      if (localStorage.getItem(username)) {
+        alert("Username already exists!");
+      } else {
+        localStorage.setItem(username, password);
+        alert("Registration successful! You can now log in.");
+        showLogin();
+      }
+    }
+
+    function login() {
+      let username = document.getElementById("loginUsername").value;
+      let password = document.getElementById("loginPassword").value;
+      let storedPassword = localStorage.getItem(username);
+
+      if (!storedPassword) {
+        alert("User not found!");
+      } else if (storedPassword !== password) {
+        alert("Incorrect password!");
+      } else {
+        document.getElementById("loginContainer").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        document.getElementById("welcomeUser").innerText = "Hello, " + username + "!";
+      }
+    }
+
+    function logout() {
+      document.getElementById("dashboard").style.display = "none";
+      showLogin();
+    }
+  </script>
+</body>
+</html>
